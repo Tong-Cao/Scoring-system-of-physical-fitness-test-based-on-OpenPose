@@ -1,37 +1,23 @@
-# streamlit-fastapi-model-serving
+# Scoring-system-of-physical-fitness-test-based-on-OpenPose
+## **在linux系统中opencv无法找到合适编码方式，暂无法实现项目整体功能！**
 
-Simple example of usage of streamlit and FastAPI for ML model serving described on [this blogpost](https://davidefiocco.github.io/streamlit-fastapi-ml-serving) and [PyConES 2020 video](https://www.youtube.com/watch?v=IvHCxycjeR0).
+本项目使用**OpenPose**检测人体关键节点并对体测项目进行自动计数，通过**streamlit**以及**fastapi**来搭建前后端用来展示**OpenPose**处理结果。 
 
-When developing simple APIs that serve machine learning models, it can be useful to have _both_ a backend (with API documentation) for other applications to call and a frontend for users to experiment with the functionality.
+运行前先安装好**docker**以及**compose**
 
-In this example, we serve an [image semantic segmentation model](https://pytorch.org/hub/pytorch_vision_deeplabv3_resnet101/) using `FastAPI` for the backend service and `streamlit` for the frontend service. `docker-compose` orchestrates the two services and allows communication between them.
+### 运行步骤：
 
-To run the example in a machine running Docker and docker-compose, run:
+1. 请在`./fastapi/models/graph/cmu`中运行`.sh`文件进行**cmu**模型下载，并在`./fastapi/openpose.py`中24行以及58行代码中更换为cmu模型
+2. 运行终端打开文件位置输入`docker compose build`在本地创建镜像  
+3. 镜像创建完成后输入`docker compose up`创建容器并运行  
 
-    docker-compose build
-    docker-compose up
+***
+- 直接下载压缩文件，在创建镜像过程中可能会报错，建议采用本地仓库拉取方式  
 
-To visit the FastAPI documentation of the resulting service, visit http://localhost:8000 with a web browser.  
-To visit the streamlit UI, visit http://localhost:8501.
+- 若在**windows**环境下无法使用**docker**，可根据`安装过程.txt`中步骤手动进行环境配置  
 
-Logs can be inspected via:
+- 在**fastapi**文件夹中的**openpose.py**中可以更换模型，其中**cmu**模型识别效果最好
 
-    docker-compose logs
+- 在**window**系统中**opencv**可以使用**avc1**的编码方式，但无法在**linux**环境中无法使用，可能需要安装**ffempg**，暂未解决
 
-### Deployment
-
-To deploy the app, one option is deployment on Heroku (with [Dockhero](https://elements.heroku.com/addons/dockhero)). To do so:
-
-- rename `docker-compose.yml` to `dockhero-compose.yml`
-- create an app (we refer to its name as `<my-app>`) on a Heroku account
-- install locally the Heroku CLI, and enable the Dockhero plugin with `heroku plugins:install dockhero`
-- add to the app the DockHero add-on (and with a plan allowing enough RAM to run the model!)
-- in a command line enter `heroku dh:compose up -d --app <my-app>` to deploy the app
-- to find the address of the app on the web, enter `heroku dh:open --app <my-app>`
-- to visualize the api, visit the address adding port `8000/docs`, e.g. `http://dockhero-<named-assigned-to-my-app>-12345.dockhero.io:8000/docs`(not `https`)
-- visit the address adding `:8501` to visit the streamlit interface
-- logs are accessible via `heroku logs -p dockhero --app <my-app>`
-
-### Debugging
-
-To modify and debug the app, [development in containers](https://davidefiocco.github.io/debugging-containers-with-vs-code) can be useful (and kind of fun!).
+  
