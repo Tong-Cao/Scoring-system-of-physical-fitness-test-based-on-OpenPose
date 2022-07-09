@@ -7,7 +7,7 @@
 
 ### 运行步骤：
 
-1. 请在`./fastapi/models/graph/cmu`中运行`.sh`文件进行**cmu**模型下载，并在`./fastapi/openpose.py`中24行以及58行代码中更换为cmu模型
+1. 请在`./fastapi/models/graph/cmu`中运行`.sh`文件进行**cmu**模型下载，并在`./fastapi/openpose.py`中24行以及58行代码中更换为**cmu**模型
 2. 运行终端打开文件位置输入`docker compose build`在本地创建镜像  
 3. 镜像创建完成后输入`docker compose up`创建容器并运行  
 
@@ -18,6 +18,6 @@
 
 - 在**fastapi**文件夹中的**openpose.py**中可以更换模型，其中**cmu**模型识别效果最好
 
-- 在**window**系统中**opencv**可以使用**avc1**的编码方式，但无法在**linux**环境中无法使用，可能需要安装**ffempg**，暂未解决
+- 在**window**系统中**opencv**可以使用**avc1**的编码方式，但无法在**linux**环境中无法使用，可能需要安装**ffmpeg**，暂未解决
 
   
