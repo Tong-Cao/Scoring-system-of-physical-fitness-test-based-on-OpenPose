@@ -1,0 +1,95 @@
+-i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+第一步，首先要保证tensorflow1.14版本的安装   同时里面要有opencv
+conda create -n tf1 python=3.7
+activate
+conda activate tf1
+conda install tensorflow-gpu==1.14
+
+pip install opencv-python==3.4.2.17 -i "https://pypi.doubanio.com/simple/"
+
+pip install opencv-contrib-python==3.4.2.17 -i "https://pypi.doubanio.com/simple/"
+
+
+第二步  安装git   
+
+第三步  配置编译器  swig   其实就是直接配置一个环境变量   此电脑--属性--高级系统设置--环境变量--系统变量--path-（输入你的swig地址）D:\软件合集\AI安装源\windows系统\10openpose\SWIG安装\swigwin-4.0.2
+然后在cmd中输入  swig --help测试
+
+
+
+#之后，记得在自己的tf1环境下安装如下的东西   
+
+conda activate tf1
+
+pip install matplotlib
+pip install cython
+
+
+首先安装pycocotools    打开cmd 进入到 Pycocotools文件夹中   的  cocoapi-master下的PythonAPI  文件夹
+输入以下命令
+python setup.py build_ext --inplace
+python setup.py build_ext install
+
+
+
+第四步 打开CMD  输入 cd C:\tf-pose-estimation-master 切换到这个文件夹  你会发现一个requirements.txt  文件，输入：
+（记得还是在tf1的环境下哦）
+pip install -r requirements.txt
+
+
+
+安装：   （注意。也许会提示你conda需要升级）  输入conda update -n base -c defaults conda
+conda install protobuf
+
+
+
+之后，新建一个CMD
+
+cmd进入到  tf-pose-estimation-master\tf_pose\pafprocess
+输入：
+swig -python -c++ pafprocess.i && python setup.py build_ext --inplace
+一直到出现  已完成代码的生成
+
+之后再输入  ：
+python setup.py install
+一直到出现  已完成代码的生成
+
+
+
+
+之后再次进入你的激活环境 tf1
+conda activate tf1
+
+
+完了之后，再去C:\tf-pose-estimation-master   运行下面的代码
+python run.py --model=mobilenet_thin
+python run_webcam.py --model=mobilenet_thin
+
+
+注意，一定要看下面的：：：：：ModuleNotFoundError: No module named 'tensorflow.contrib.tensorrt'
+此时你会发现会报错，运行tf-openpose可以会提示缺少tensorrt
+我直接将 tf-pose-estimation-master\tf_pose中的一个文件estimator.py中的导入tensorrt包的地方注释掉了，问题就解决了。
+# import tensorflow.contrib.tensorrt as trt
+
+
+
+如果报下面的错，  cudnn什么的或者   err == cudaSuccess || err == cudaErrorInvalidValue Unexpected CUDA error: invalid argument
+
+说明需要进行CPU运行，那么就去
+ 
+这几个py文件中，加入下面一句话，表示强制CPU运行
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'   
+
+
+
+
+
+
+
+
+
+
+
