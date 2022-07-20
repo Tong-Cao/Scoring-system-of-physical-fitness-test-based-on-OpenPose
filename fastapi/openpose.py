@@ -52,10 +52,12 @@ def video_process(model, binary_video):
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  # 获取视频图像宽
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 获取视频图像高
     fps = cap.get(cv2.CAP_PROP_FPS)  # 读取图像显示帧率
-    fourcc = int(cv2.VideoWriter_fourcc(*'avc1'))  # 选择编码方式 streamlit不支持显示MPV4编码方式
+    fourcc = int(cv2.VideoWriter_fourcc(*'vp90'))  # streamlit不支持显示MPV4编码方式 需要选择合适的编码方式
+    #  linux环境下使用vp90编码或者直接将fourcc设置为0x39307076
+    #  在windows下编码方式改为avc1
     out = cv2.VideoWriter(outfile_name, fourcc, fps, (width, height))  # 创建视频
 
-    e = TfPoseEstimator(get_graph_path('mobilenet_thin'), target_size=(432, 368))  # 选择模型  一定要放在处理视频帧循环外部 否则每次都要加载模型
+    e = TfPoseEstimator(get_graph_path('cmu'), target_size=(432, 368))  # 选择模型  一定要放在处理视频帧循环外部 否则每次都要加载模型
 
     fps_time = 0
 
